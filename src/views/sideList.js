@@ -39,6 +39,10 @@ export const mainSide =  [{
     title: '订单评论',
     path: 'orderEval',   
     active: false 
+  },{
+    title: '消息中心',
+    path: 'pushList',   
+    active: false 
   }]
 },{
   header: '订单列表',

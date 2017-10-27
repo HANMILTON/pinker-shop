@@ -6,7 +6,7 @@ import router from './router'
 // import VueQuillEditor from 'vue-quill-editor'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-import 'babel-polyfill'
+// import 'babel-polyfill'
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 // Vue.component('VueQuillEditor',VueQuillEditor)

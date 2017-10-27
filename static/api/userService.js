@@ -315,5 +315,13 @@ export default {
       is_online_maidan,is_online_reserve
     })
     .then(res => res)
+   },
+   pushBannerList(){
+    return pkFetch.post(`${userServer}/push_list_banner`)
+    .then(res => res)
+   },
+   getPushList(searchObj){
+    return pkFetch.post(`${userServer}/push_list`,searchObj)
+    .then(res => res)
    }
 }

@@ -21,14 +21,12 @@
 					{{data.title}}
 				</div>
 	    		
-    			<div class="news-body">
-    			<!-- <img class="news-img" :src="data.img"> -->
-	    			<div class="swiper-container" v-if="data.img">
-					  <div class="swiper-wrapper">
-					    <div class="swiper-slide" v-for="img in data.img.split(',')"><img class="news-img" :src="img"></div>
-					  </div>
-					</div>    				
-
+    			<div class="news-body">				
+				   <el-carousel height="135px">
+				      <el-carousel-item v-for="item in data.img.split(',')" :key="item">
+				        <img class="news-img" :src="item">
+				      </el-carousel-item>
+				    </el-carousel>
     				<div class="news-description text-left">
     					{{data.description}}
     				</div>
@@ -136,11 +134,11 @@ import newsEdit from "./newsEdit"
 						// 		that.newsList.offlineList.push(data)
 						// 	}
 						// })
-						setTimeout(function(){
-							var mySwiper = new Swiper('.swiper-container', {
-								loop:true
-							})
-						},0)
+						// setTimeout(function(){
+						// 	var mySwiper = new Swiper('.swiper-container', {
+						// 		loop:true
+						// 	})
+						// },0)
 					}
 				})
 			},
@@ -248,11 +246,11 @@ import newsEdit from "./newsEdit"
   	box-shadow: 0 0 10px #ddebff;
   	position: relative;
   }  
-.swiper-container{
+/*.swiper-container{
 	width: 100%;
 	height: 135px;
 	overflow: hidden;
-}
+}*/
   .news-list{
   	font-size: 12px;
 	padding: 10px;

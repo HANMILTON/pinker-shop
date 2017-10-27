@@ -12,6 +12,7 @@ import orderBuy from '@/views/main/orderBuy/orderBuy'
 import paySuccess from '@/views/main/paySuccess/paySuccess'
 import userSet from '@/views/main/userSet/userSet'
 import pay from '@/views/main/pay/pay'
+import pushList from '@/views/main/push/pushList'
 export default [
     // {
     //   path: '/main',
@@ -82,5 +83,10 @@ export default [
       path: '/pay',
       name: 'pay',
       component: pay
-    } 
+    } ,
+    {
+      path: '/pushList',
+      name: 'pushList',
+      component: pushList
+    } ,   
 ]
