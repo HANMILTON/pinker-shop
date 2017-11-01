@@ -30,7 +30,6 @@ export default {
       if(res.code == 200){
         this.$router.push('/login')
         localStorage.clear()
-        this.sessionStorage.clear()
       }
     })
    },

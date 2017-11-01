@@ -18,15 +18,25 @@
 		<el-row :gutter="20">
 		  	<el-col :span="10">
 		 		<el-tabs v-model="selectedId">
-			       <el-tab-pane :label="data" v-for="(data,index) in selectList"  @click="selectedId = String(index+1)" :name="String(index+1)"></el-tab-pane>
+			       <el-tab-pane :label="data.text" v-for="(data,index) in selectList"  @click="selectedId = String(index)" :name="String(index)"></el-tab-pane>
 			    </el-tabs>
 		    </el-col>
 	    </el-row>
 		<div class="push-box">
 					<!-- {{pushList}} -->
 			<div v-for="data in pushList" class="push-list">
-				<div class="push-logo"><img v-if="data.push_type == 1" src="./order.png"><img v-else-if="data.push_type == 2" src="./finance.png"><img v-else-if="data.push_type == 3" src="./push.png"></div>
+			<div v-if="data.push_type == 1">
+				<div class="push-logo"><img src="./order.png"></div>		
+				<div class="push-info"><span class="no-content"><span class="black-font">{{data.content}} </span>用户下了{{calType(data.push_type_2)}}，订单金额为<span class="danger-font"> {{data.title}} </span>元</span></div>
+			</div>
+			<div v-if="data.push_type == 2">
+				<div class="push-logo"><img src="./finance.png"></div>		
+				<div class="push-info"><span class="no-content"><span class="black-font">{{data.time_online}} </span>后台操作结账，结账金额为<span class="danger-font"> {{data.title}} </span>元</span></div>
+			</div>
+			<div v-if="data.push_type == 3">
+				<div class="push-logo"><img src="./push.png"></div>		
 				<div class="push-info"><span @click="showEdit=true,selectData=data.content" class="has-content" v-if="data.content">{{data.title}}</span><span class="no-content" v-else>{{data.title}}</span></div>
+			</div>			
 			</div>
 		</div>
 		<div class="text-center" v-if="pageCount>1">
@@ -56,12 +66,13 @@ export default{
 	data(){
 		return {
 			refreshList: 0,
-			selectedId: "1",
-			selectList: ["全部","订单","结算","通知"],
+			selectedId: "0",
+			selectList: [{text:"全部",value:"-1"},{text:"订单",value:"1"},{text:"结算",value:"2"},{text:"通知",value:"3"}],
 			bannerList:[],
 			searchObj:{
 				page:1,
 				per_page:8,
+				push_type:-1
 			},
 			pageCount:0,
 			pushList:[],
@@ -69,10 +80,38 @@ export default{
 			selectData:{}
 		}
 	},
+	computed:{
+		// calType(val){
+		// 	switch(val){
+		// 		case "1":
+		// 			return "套餐订单"
+		// 			break;
+		// 		case "2":
+		// 			return "买单订单"
+		// 			break;
+		// 		case "3":
+		// 			return "预定订单"
+		// 			break;										
+		// 	}
+		// },		
+	},
 	methods:{
-					handleCurrentChange(){
-				this.refreshList++
-			},
+		calType(val){
+			switch(val){
+				case "1":
+					return "套餐订单"
+					break;
+				case "2":
+					return "买单订单"
+					break;
+				case "3":
+					return "预定订单"
+					break;										
+			}
+		},		
+		handleCurrentChange(){
+			this.refreshList++
+		},
 		getBannerList(){
 			userService.pushBannerList()
 			.then(res => {
@@ -96,7 +135,11 @@ export default{
 		this.refreshList++
 	},
 	watch:{
-		"refreshList":"getPushList"
+		"refreshList":"getPushList",
+		"selectedId"(newVal){
+			this.searchObj.push_type = newVal == "0" ? "-1" : newVal
+			this.refreshList++
+		}
 	}	
 }
 </script>
