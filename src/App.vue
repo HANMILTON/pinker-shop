@@ -10,10 +10,6 @@
         </div>
         <!-- 内容区 -->
         <div class="col-xs-12 col-sm-9 col-lg-10 router-box" :style="{minHeight:setHeight()}">
-        <!--  <audio ref="notify">
-            <source :src='notifyMp3' type="audio/mpeg">
-            <source :src='notifyOgg' type='audio/ogg'>
-          </audio> -->
           <router-view transition='fade' transition-mode='out-in'></router-view>
         </div>         
       </div>
@@ -21,6 +17,7 @@
     </div>
     <!-- <div> -->
       <router-view v-else transition='fade' transition-mode='out-in'></router-view>
+      
     <!-- </div> -->
   </div>
 </template>
@@ -42,10 +39,7 @@ export default {
       isLogin: true,
       showMainPage: true,
       notMainPageList:["active","apply","login","register","forgot","backMobile","backEmail","e_mail_confirm","e_mail_getback_pwd","emailPrompt"],
-      showApp:false,
-      // nitifyMp3: require('./assets/notify.mp3'),
-      // notifyOgg: require('./assets/notify.ogg'),    
-      uid: localStorage.getItem("user_id")
+      showApp:false,   
     }
   },
   methods:{
@@ -54,7 +48,6 @@ export default {
     }, 
     setUserInfo(res){
         // console.log(res.code)
-
         this.showApp = true 
         if(res.code == 200){
           if(res.data == null){
@@ -74,6 +67,7 @@ export default {
           }
         }
       },
+
       chageLayout(){
         let routeName = this.$route.name
         let pageList = this.notMainPageList
@@ -99,25 +93,6 @@ export default {
       userService.getUserInfo()
       .then(res => this.setUserInfo(res))      
     },
-    playAudio() {
-      this.$refs.notify.load()
-      this.$refs.notify.play()
-    },
-    setPushInfo(){
-      let socket = io('http://116.62.68.103:2120');
-      // uid可以是自己网站的用户id，以便针对uid推送以及统计在线人数
-      let uid = this.uid;
-      // socket连接后以uid登录
-      socket.on('connect', function(){
-        socket.emit('login', uid);
-      });
-      // 后端推送来消息时
-      socket.on('new_msg', function(msg){
-        console.log(msg)
-          bus.$emit("showAlert",msg,"success")
-      });
-      // this.playAudio()
-    }
   },
   mounted(){
     this.chageLayout()
@@ -131,7 +106,7 @@ export default {
           duration:2000
         });      
     })      
-    this.setPushInfo()
+    // this.setPushInfo()
   },
   watch:{
     "$route": "chageLayout"
@@ -163,4 +138,5 @@ export default {
     padding: 5px 20px;
     background: white;
   }
+
 </style>

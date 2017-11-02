@@ -128,9 +128,28 @@ export default{
 					this.pageCount = res.data.page_count
 				}
 			})	
-		}
+		},
+	    setPushInfo(){
+	      let socket = io('http://116.62.68.103:2120');
+	      // uid可以是自己网站的用户id，以便针对uid推送以及统计在线人数
+	      let uid = localStorage.getItem("user_id");
+	      let that = this;
+	      // socket连接后以uid登录
+	      socket.on('connect', function(){
+	        socket.emit('login', uid);
+	      });
+	      // 后端推送来消息时
+	      socket.on('new_msg', function(msg){
+	      	if(that.selectedId == "0"){
+	      		that.refreshList++
+	      	}else{
+	      		that.selectedId = "0"
+	      	}
+	      });
+	    }
 	},
 	mounted(){
+		this.setPushInfo()
 		this.getBannerList()
 		this.refreshList++
 	},
@@ -139,7 +158,7 @@ export default{
 		"selectedId"(newVal){
 			this.searchObj.push_type = newVal == "0" ? "-1" : newVal
 			this.refreshList++
-		}
+		},
 	}	
 }
 </script>

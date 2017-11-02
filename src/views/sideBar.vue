@@ -36,17 +36,21 @@ export default {
         for (let j = 0; j < mainSide[i].subPage.length; j++) {
           let mainList = mainSide[i].subPage[j];
           if (mainList.path == name) {
-            return "" + i + "-" + j;
+            return this.selectedClass = "" + i + "-" + j;
           }
         }
       }
+
     },
     resetBg(str) {
       this.selectedClass = str;
     }
   },
   mounted(){
-   this.selectedClass = this.getIndex();
+   this.getIndex()
+  },
+  watch:{
+    "$route": "getIndex"
   }
 }
 </script>
